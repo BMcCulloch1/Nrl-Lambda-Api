@@ -43,6 +43,10 @@ const lambdaHandler = async (event, context) => {
         //API response
         return {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(newsData),
         };
 
@@ -50,6 +54,10 @@ const lambdaHandler = async (event, context) => {
         console.error(err);
         return {
             statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({error: "Something went wrong"}),
         };
     }

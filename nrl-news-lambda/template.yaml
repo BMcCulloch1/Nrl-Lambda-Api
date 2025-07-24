@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   nrl-news-lambda
-  
+
 Globals:
   Function:
     Timeout: 5
@@ -25,11 +25,22 @@ Resources:
           Properties:
             Path: /news
             Method: get
+            RestApiId: !Ref ApiGateway 
+            
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:  
+        AllowMethods: "'GET'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
 
 Outputs:
   NewsApi:
     Description: "API Gateway endpoint URL for NRL News"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/news/"
+    Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Prod/news/"
   NRLNewsFunction:
     Description: "NRL News Lambda Function ARN"
     Value: !GetAtt NRLNewsFunction.Arn
